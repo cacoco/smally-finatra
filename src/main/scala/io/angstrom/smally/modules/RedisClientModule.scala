@@ -1,9 +1,10 @@
 package io.angstrom.smally.modules
 
+import javax.inject.Named
+
 import com.google.inject.{Provides, Singleton}
-import com.twitter.finagle.redis.util.StringToChannelBuffer
 import com.twitter.finagle.redis.{Client, TransactionalClient}
-import com.twitter.inject.{Injector, Logging, TwitterModule}
+import com.twitter.inject.{Logging, TwitterModule}
 import io.angstrom.smally.modules.RedisClientModule._
 
 object RedisClientModule {
@@ -19,35 +20,37 @@ class RedisClientModule
   @Singleton
   @Provides
   def providesRedisTransactionalClient(): Client = {
-    val configuration = parseRedisUrl
+    val configuration = parseRedisUrl(redisUrl())
     TransactionalClient(s"${configuration.host}:${configuration.port}")
   }
 
-  override def singletonStartup(injector: Injector): Unit = {
-    parsePassword map { password =>
-      val client = injector.instance[Client]
-      client.auth(StringToChannelBuffer(password))
-    }
+  @Singleton
+  @Provides
+  @Named("redis.password")
+  def providesRedisPassword(): Option[String] = {
+    parsePassword(redisUrl())
   }
 
   /* Private */
 
-  private def parseRedisUrl: RedisConfiguration = {
-    val url = redisUrl()
-    val port = java.lang.Integer.valueOf(url.substring(url.lastIndexOf(":") + 1))
-    RedisConfiguration(parseHost, port, parsePassword)
+  private def parseRedisUrl(url: String): RedisConfiguration = {
+    RedisConfiguration(
+      parseHost(url),
+      parsePort(url))
   }
 
-  private def parseHost: String = {
-    val url = redisUrl()
+  private def parsePort(url: String): Int = {
+    java.lang.Integer.valueOf(url.substring(url.lastIndexOf(":") + 1))
+  }
+
+  private def parseHost(url: String): String = {
     val potentialHost = url.substring(RedisUrlScheme.length, url.lastIndexOf(":"))
     if (potentialHost.contains("@")) {
       potentialHost.substring(potentialHost.indexOf("@") + 1)
     } else potentialHost
   }
 
-  private def parsePassword: Option[String] = {
-    val url = redisUrl()
+  private def parsePassword(url: String): Option[String] = {
     val host = url.substring(RedisUrlScheme.length, url.lastIndexOf(":"))
     if (host.contains("@")) {
       Some(host.substring(0, host.indexOf("@")))
@@ -55,4 +58,4 @@ class RedisClientModule
   }
 }
 
-case class RedisConfiguration(host: String, port: Int, passwordOpt: Option[String])
+case class RedisConfiguration(host: String, port: Int)
