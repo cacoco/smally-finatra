@@ -21,7 +21,7 @@ class RedisClientModule
   def providesRedisTransactionalClient(): Client = {
     val configuration = parseRedisUrl
     val client = TransactionalClient(s"${configuration.host}:${configuration.port}")
-    configuration.passwordOpt map { password => client.auth(StringToChannelBuffer(password)) }
+//    configuration.passwordOpt map { password => client.auth(StringToChannelBuffer(password)) }
     client
   }
 
