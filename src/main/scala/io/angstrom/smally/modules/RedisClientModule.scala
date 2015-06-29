@@ -3,7 +3,7 @@ package io.angstrom.smally.modules
 import com.google.inject.{Provides, Singleton}
 import com.twitter.finagle.redis.util.StringToChannelBuffer
 import com.twitter.finagle.redis.{Client, TransactionalClient}
-import com.twitter.inject.{Logging, TwitterModule}
+import com.twitter.inject.{Injector, Logging, TwitterModule}
 import io.angstrom.smally.modules.RedisClientModule._
 
 object RedisClientModule {
@@ -20,9 +20,14 @@ class RedisClientModule
   @Provides
   def providesRedisTransactionalClient(): Client = {
     val configuration = parseRedisUrl
-    val client = TransactionalClient(s"${configuration.host}:${configuration.port}")
-//    configuration.passwordOpt map { password => client.auth(StringToChannelBuffer(password)) }
-    client
+    TransactionalClient(s"${configuration.host}:${configuration.port}")
+  }
+
+  override def singletonStartup(injector: Injector): Unit = {
+    parsePassword map { password =>
+      val client = injector.instance[Client]
+      client.auth(StringToChannelBuffer(password))
+    }
   }
 
   /* Private */
@@ -30,13 +35,23 @@ class RedisClientModule
   private def parseRedisUrl: RedisConfiguration = {
     val url = redisUrl()
     val port = java.lang.Integer.valueOf(url.substring(url.lastIndexOf(":") + 1))
+    RedisConfiguration(parseHost, port, parsePassword)
+  }
 
+  private def parseHost: String = {
+    val url = redisUrl()
     val potentialHost = url.substring(RedisUrlScheme.length, url.lastIndexOf(":"))
-    val (host, passwordOpt) = if (potentialHost.contains("@")) {
-      (potentialHost.substring(potentialHost.indexOf("@") + 1),
-        Some(potentialHost.substring(0, potentialHost.indexOf("@"))))
-    } else (potentialHost, None)
-    RedisConfiguration(host, port, passwordOpt)
+    if (potentialHost.contains("@")) {
+      potentialHost.substring(potentialHost.indexOf("@") + 1)
+    } else potentialHost
+  }
+
+  private def parsePassword: Option[String] = {
+    val url = redisUrl()
+    val host = url.substring(RedisUrlScheme.length, url.lastIndexOf(":"))
+    if (host.contains("@")) {
+      Some(host.substring(0, host.indexOf("@")))
+    } else None
   }
 }
 
