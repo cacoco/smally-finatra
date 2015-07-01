@@ -70,7 +70,7 @@ http://nameless-lake-8055.herokuapp.com/ | https://git.heroku.com/nameless-lake-
 Git remote heroku added
 ```
 
-Then add-on Redis:
+Then create a Redis add-on:
 
 ```
 $ heroku addons:create heroku-redis:hobby-dev

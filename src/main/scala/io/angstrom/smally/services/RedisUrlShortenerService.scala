@@ -1,22 +1,17 @@
 package io.angstrom.smally.services
 
-import javax.inject.{Inject, Named}
+import javax.inject.Inject
 
-import com.twitter.finagle.redis.util.{CBToString, StringToChannelBuffer}
-import com.twitter.finagle.redis.{Client => RedisClient}
 import com.twitter.inject.Logging
-import com.twitter.util.Future
-import io.angstrom.smally.Counter
 import io.angstrom.smally.services.RedisUrlShortenerService._
+import redis.clients.jedis.{Jedis => JedisClient}
 
 object RedisUrlShortenerService {
-  val EncodingRadix = 32
-  val KeyPrefix = "url-"
+  private[services] val KeyPrefix = "url-"
 }
 
 class RedisUrlShortenerService @Inject() (
-  @Named("redis.password") password: Option[String],
-  client: RedisClient,
+  client: JedisClient,
   counter: Counter) extends Logging {
 
   /**
@@ -26,16 +21,14 @@ class RedisUrlShortenerService @Inject() (
    * @param url - the URL to be shortened.
    * @return the 32-radix integer representation of the counter mapped to the URL.
    */
-  def create(url: java.net.URL): Future[String] = {
+  def create(url: java.net.URL): String = {
     info(s"Creating shortened URL for: ${url.toString}")
-    auth map { _ =>
       // use the next value of the counter as the key in cache
-      val nextValue = counter.next
-      client.set(
-        StringToChannelBuffer("%s%s".format(KeyPrefix, nextValue.toString)),
-        StringToChannelBuffer(url.toString))
-      java.lang.Long.toString(nextValue, EncodingRadix)
-    }
+    val nextValue = counter.next
+    client.set(
+      "%s%s".format(KeyPrefix, nextValue.toString),
+      url.toString)
+    java.lang.Long.toString(nextValue, EncodingRadix)
   }
 
   /**
@@ -44,27 +37,10 @@ class RedisUrlShortenerService @Inject() (
    * @param id the 32-radix integer as a String to use as the key
    * @return if found a Some(String) of the mapped URL, None if no value is found for the determined key
    */
-  def get(id: String): Future[Option[String]] = {
-    auth map { _ =>
-      val value = java.lang.Long.valueOf(id, EncodingRadix)
+  def get(id: String): Option[String] = {
+    val value = java.lang.Long.valueOf(id, EncodingRadix)
+    Option(
       client.get(
-        StringToChannelBuffer(
-          "%s%s".format(
-            KeyPrefix,
-            value.toString)))() map { buffer =>
-        CBToString(buffer)
-      }
-    }
-  }
-
-  /* Private */
-
-  private def auth = {
-    password match {
-      case Some(pwd) =>
-        client.auth(StringToChannelBuffer(pwd))
-      case _ =>
-        Future.Unit
-    }
+        "%s%s".format(KeyPrefix, value.toString)))
   }
 }

@@ -4,5 +4,5 @@ import com.twitter.inject.TwitterModule
 
 class SmallyModule extends TwitterModule {
 
-  flag("secure", false, "Returns https URLs always")
+  flag("secure", false, "Use HTTPS shortened URLS")
 }

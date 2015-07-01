@@ -2,16 +2,13 @@ package io.angstrom.smally
 
 import com.google.inject.testing.fieldbinder.Bind
 import com.twitter.finagle.http.Status._
-import com.twitter.finagle.redis.util.StringToChannelBuffer
-import com.twitter.finagle.redis.{Client => RedisClient}
 import com.twitter.finatra.http.test.EmbeddedHttpServer
 import com.twitter.inject.Mockito
 import com.twitter.inject.server.FeatureTest
-import com.twitter.util.Future
 import io.angstrom.smally.domain.http.PostUrlResponse
-import io.angstrom.smally.services.RedisUrlShortenerService
-import org.jboss.netty.buffer.ChannelBuffer
+import io.angstrom.smally.services._
 import org.mockito.Matchers.anyObject
+import redis.clients.jedis.{Jedis => JedisClient}
 
 import scala.util.Random
 
@@ -25,19 +22,18 @@ class SmallyServerFeatureTest
     })
 
   @Bind
-  val mockRedisClient = smartMock[RedisClient]
+  val mockJedisClient = smartMock[JedisClient]
 
   "Server" should {
     "return shortened url" in {
-      mockRedisClient.get(anyObject[ChannelBuffer]()) returns Future.None
-      mockRedisClient.set(
-        anyObject[ChannelBuffer](),
-        anyObject[ChannelBuffer]())
+      mockJedisClient.get(anyObject[String]()) returns null
+      mockJedisClient.set(
+        anyObject[String](),
+        anyObject[String]()) returns "OK"
 
       val port = server.httpExternalPort
-      val path = java.lang.Long.toString(
-        Counter.InitialValue + 1,
-        RedisUrlShortenerService.EncodingRadix)
+      val path =
+        java.lang.Long.toString(Counter.InitialValue + 1, EncodingRadix)
 
       server.httpPost(
         path = "/url",
@@ -57,10 +53,10 @@ class SmallyServerFeatureTest
     }
 
     "resolve shortened url" in {
-      mockRedisClient.get(anyObject[ChannelBuffer]()) returns Future.None
-      mockRedisClient.set(
-        anyObject[ChannelBuffer](),
-        anyObject[ChannelBuffer]())
+      mockJedisClient.get(anyObject[String]()) returns null
+      mockJedisClient.set(
+        anyObject[String](),
+        anyObject[String]()) returns "OK"
 
       val response = server.httpPostJson[PostUrlResponse](
         path = "/url",
@@ -72,11 +68,8 @@ class SmallyServerFeatureTest
           """,
         andExpect = Created)
 
-      mockRedisClient.get(
-        anyObject[ChannelBuffer]()) returns
-        Future.value(
-          Some(
-            StringToChannelBuffer("http://www.google.com")))
+      mockJedisClient.get(
+        anyObject[String]()) returns "http://www.google.com"
 
       server.httpGet(
         path = response.smallyUrl.substring(response.smallyUrl.lastIndexOf("/")),
@@ -96,11 +89,12 @@ class SmallyServerFeatureTest
     }
 
     "return NotFound for unknown 32-radix id" in {
-      val id = java.lang.Long.toString(
-        Counter.InitialValue + new Random(Counter.InitialValue).nextLong().abs,
-        RedisUrlShortenerService.EncodingRadix)
+      val id =
+        java.lang.Long.toString(
+          Counter.InitialValue + new Random(Counter.InitialValue).nextLong().abs,
+          EncodingRadix)
 
-      mockRedisClient.get(anyObject[ChannelBuffer]()) returns Future.None
+      mockJedisClient.get(anyObject[String]()) returns null
 
       server.httpGet(
         path = s"/$id",

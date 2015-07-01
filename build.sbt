@@ -1,5 +1,4 @@
 import com.typesafe.sbt.SbtNativePackager._
-import NativePackagerKeys._
 
 packageArchetype.java_application
 
@@ -17,7 +16,7 @@ resolvers ++= Seq(
 )
 
 libraryDependencies ++= Seq(
-  "com.twitter" %% "finagle-redis" % "6.25.0",
+  "redis.clients" % "jedis" % "2.7.2",
 
   "com.twitter.finatra" %% "finatra-http" % "2.0.0.M2",
   "com.twitter.finatra" %% "finatra-logback" % "2.0.0.M2",
