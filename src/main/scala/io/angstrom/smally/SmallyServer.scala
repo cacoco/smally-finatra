@@ -7,14 +7,14 @@ import com.twitter.finatra.http.routing.HttpRouter
 import com.twitter.finatra.logging.filter.{LoggingMDCFilter, TraceIdMDCFilter}
 import com.twitter.finatra.logging.modules.LogbackModule
 import io.angstrom.smally.exceptions.MalformedURLExceptionMapper
-import io.angstrom.smally.modules.{SmallyModule, RedisClientModule}
+import io.angstrom.smally.modules.{JedisClientModule, SmallyModule}
 
 object SmallyServerMain extends SmallyServer
 
 class SmallyServer extends HttpServer {
   override def modules = Seq(
     LogbackModule,
-    new RedisClientModule,
+    new JedisClientModule,
     new SmallyModule)
 
   override def configureHttp(router: HttpRouter) {

@@ -3,7 +3,7 @@ package io.angstrom.smally
 import com.google.inject.Stage
 import com.twitter.finatra.http.test.EmbeddedHttpServer
 import com.twitter.inject.Test
-import io.angstrom.smally.modules.MockRedisClientModule
+import io.angstrom.smally.modules.MockJedisClientModule
 
 class SmallyServerStartupTest extends Test {
 
@@ -11,7 +11,7 @@ class SmallyServerStartupTest extends Test {
     stage = Stage.PRODUCTION,
     twitterServer = new SmallyServer {
       // sadly this is necessary to prevent connecting
-      override val overrideModules = Seq(new MockRedisClientModule)
+      override val overrideModules = Seq(new MockJedisClientModule)
     })
 
   "server" in {
