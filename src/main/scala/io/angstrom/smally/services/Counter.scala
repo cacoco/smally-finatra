@@ -18,7 +18,7 @@ class Counter @Inject()(
   def next: Long = {
     val current: Long = Option(client.get(CounterKey)) match {
       case Some(value) =>
-        java.lang.Long.valueOf(value, EncodingRadix)
+        value.toLong
       case None =>
         InitialValue
     }
