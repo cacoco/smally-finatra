@@ -9,6 +9,8 @@ version := "1.0.0-SNAPSHOT"
 
 scalaVersion := "2.11.6"
 
+fork in run := true
+
 resolvers ++= Seq(
   Resolver.sonatypeRepo("releases"),
   "Twitter Maven" at "http://maven.twttr.com",
