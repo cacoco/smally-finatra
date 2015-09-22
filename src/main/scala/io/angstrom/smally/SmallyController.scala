@@ -1,5 +1,6 @@
 package io.angstrom.smally
 
+import io.angstrom.smally.services.impl.RedisUrlShortenerService
 import java.net.URL
 import javax.inject.Inject
 
@@ -8,7 +9,6 @@ import com.twitter.finatra.http.Controller
 import com.twitter.finatra.http.response.ResponseBuilder
 import com.twitter.inject.Logging
 import io.angstrom.smally.domain.http.{PostUrlRequest, PostUrlResponse, SmallyUrlRedirect}
-import io.angstrom.smally.services.RedisUrlShortenerService
 
 class SmallyController @Inject()(
   @Flag("secure") secure: Boolean,

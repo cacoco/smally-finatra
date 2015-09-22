@@ -1,18 +1,20 @@
-package io.angstrom.smally.services
-
-import javax.inject.Inject
+package io.angstrom.smally.services.impl
 
 import com.twitter.inject.Logging
-import io.angstrom.smally.services.RedisUrlShortenerService._
+import io.angstrom.smally.services._
+import io.angstrom.smally.services.impl.RedisUrlShortenerService._
+import javax.inject.Inject
 import redis.clients.jedis.{Jedis => JedisClient}
 
 object RedisUrlShortenerService {
-  private[services] val KeyPrefix = "url-"
+  val KeyPrefix = "url-"
 }
 
 class RedisUrlShortenerService @Inject() (
   client: JedisClient,
-  counter: Counter) extends Logging {
+  counter: Counter)
+  extends UrlShortenerService
+  with Logging {
 
   /**
    * Maps the given URL to a 32-radix integer based on the next value in

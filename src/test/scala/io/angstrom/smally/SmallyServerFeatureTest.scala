@@ -1,7 +1,7 @@
 package io.angstrom.smally
 
 import com.google.inject.testing.fieldbinder.Bind
-import com.twitter.finagle.http.Status._
+import com.twitter.finagle.httpx.Status._
 import com.twitter.finatra.http.test.EmbeddedHttpServer
 import com.twitter.inject.Mockito
 import com.twitter.inject.server.FeatureTest
@@ -16,10 +16,7 @@ class SmallyServerFeatureTest
   extends FeatureTest
   with Mockito {
 
-  override val server = new EmbeddedHttpServer(
-    twitterServer = new SmallyServer {
-      override val overrideModules = Seq(integrationTestModule)
-    })
+  override val server = new EmbeddedHttpServer(twitterServer = new SmallyServer)
 
   @Bind
   val mockJedisClient = smartMock[JedisClient]

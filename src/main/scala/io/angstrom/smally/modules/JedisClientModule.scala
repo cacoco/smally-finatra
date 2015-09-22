@@ -4,7 +4,7 @@ import com.google.inject.{Provides, Singleton}
 import com.twitter.inject.{Logging, TwitterModule}
 import redis.clients.jedis.Jedis
 
-class JedisClientModule
+object JedisClientModule
   extends TwitterModule
   with Logging {
 

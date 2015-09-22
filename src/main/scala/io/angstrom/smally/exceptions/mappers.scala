@@ -3,7 +3,7 @@ package io.angstrom.smally.exceptions
 import java.net.MalformedURLException
 import javax.inject.Inject
 
-import com.twitter.finagle.http.{Response, Request}
+import com.twitter.finagle.httpx.{Response, Request}
 import com.twitter.finatra.http.exceptions.ExceptionMapper
 import com.twitter.finatra.http.response.ResponseBuilder
 
