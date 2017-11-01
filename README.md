@@ -18,46 +18,24 @@ To run locally using foreman:
 
 ```
 $ ➔ PORT=8080 REDIS_URL=redis://127.0.0.1:12345 foreman start web
-15:15:53 web.1     | started with pid 7184
-15:15:55 web.1     | 2015-06-28 15:15:55,802 INF                           SmallyServerMain$         Process started
-15:15:56 web.1     | I 0628 22:15:56.348 THREAD1: HttpMuxer[/admin/metrics.json] = com.twitter.finagle.stats.MetricsExporter(<function1>)
-15:15:56 web.1     | I 0628 22:15:56.407 THREAD1: HttpMuxer[/admin/per_host_metrics.json] = com.twitter.finagle.stats.HostMetricsExporter(<function1>)
-15:15:56 web.1     | I 0628 22:15:56.533 THREAD1: /admin => com.twitter.server.handler.SummaryHandler
-15:15:56 web.1     | I 0628 22:15:56.534 THREAD1: /admin/server_info => com.twitter.finagle.Filter$$anon$1
-15:15:56 web.1     | I 0628 22:15:56.534 THREAD1: /admin/contention => com.twitter.finagle.Filter$$anon$1
-15:15:56 web.1     | I 0628 22:15:56.534 THREAD1: /admin/threads => com.twitter.server.handler.ThreadsHandler
-15:15:56 web.1     | I 0628 22:15:56.534 THREAD1: /admin/threads.json => com.twitter.server.handler.ThreadsHandler
-15:15:56 web.1     | I 0628 22:15:56.535 THREAD1: /admin/announcer => com.twitter.finagle.Filter$$anon$1
-15:15:56 web.1     | I 0628 22:15:56.535 THREAD1: /admin/dtab => com.twitter.finagle.Filter$$anon$1
-15:15:56 web.1     | I 0628 22:15:56.535 THREAD1: /admin/pprof/heap => com.twitter.server.handler.HeapResourceHandler
-15:15:56 web.1     | I 0628 22:15:56.535 THREAD1: /admin/pprof/profile => com.twitter.server.handler.ProfileResourceHandler
-15:15:56 web.1     | I 0628 22:15:56.536 THREAD1: /admin/pprof/contention => com.twitter.server.handler.ProfileResourceHandler
-15:15:56 web.1     | I 0628 22:15:56.536 THREAD1: /admin/ping => com.twitter.server.handler.ReplyHandler
-15:15:56 web.1     | I 0628 22:15:56.537 THREAD1: /admin/shutdown => com.twitter.server.handler.ShutdownHandler
-15:15:56 web.1     | I 0628 22:15:56.537 THREAD1: /admin/tracing => com.twitter.server.handler.TracingHandler
-15:15:56 web.1     | I 0628 22:15:56.537 THREAD1: /admin/events => com.twitter.server.handler.EventsHandler
-15:15:56 web.1     | I 0628 22:15:56.538 THREAD1: /admin/logging => com.twitter.server.handler.LoggingHandler
-15:15:56 web.1     | I 0628 22:15:56.538 THREAD1: /admin/metrics => com.twitter.server.handler.MetricQueryHandler
-15:15:56 web.1     | I 0628 22:15:56.539 THREAD1: /admin/clients/ => com.twitter.server.handler.ClientRegistryHandler
-15:15:56 web.1     | I 0628 22:15:56.539 THREAD1: /admin/servers/ => com.twitter.server.handler.ServerRegistryHandler
-15:15:56 web.1     | I 0628 22:15:56.540 THREAD1: /admin/files/ => com.twitter.server.handler.ResourceHandler
-15:15:56 web.1     | I 0628 22:15:56.540 THREAD1: /admin/registry.json => com.twitter.server.handler.RegistryHandler
-15:15:56 web.1     | I 0628 22:15:56.542 THREAD1: Serving admin http on 0.0.0.0/0.0.0.0:0
-15:15:56 web.1     | I 0628 22:15:56.623 THREAD1: Finagle version 6.25.0 (rev=78909170b7cc97044481274e297805d770465110) built at 20150423-135046
-15:15:57 web.1     | 2015-06-28 15:15:57,854 INF                           RedisClientModule         Configured Redis URL: redis://127.0.0.1:12345
-15:15:58 web.1     | 2015-06-28 15:15:58,650 DEB                           MessageBodyModule$        Configuring MessageBodyManager
-15:15:58 web.1     | 2015-06-28 15:15:58,692 INF                           SmallyServerMain$         Resolving Finagle clients before warmup
-15:15:58 web.1     | 2015-06-28 15:15:58,700 INF                           finagle                   client resolved to Addr.Bound, current size=1
-15:15:58 web.1     | 2015-06-28 15:15:58,705 INF                           SmallyServerMain$         Done resolving clients: [client].
-15:15:58 web.1     | 2015-06-28 15:15:58,881 INF                           SmallyServerMain$         Warming up.
-15:15:59 web.1     | 2015-06-28 15:15:59,002 INF                           HttpRouter                Adding routes
-15:15:59 web.1     | POST    /url
-15:15:59 web.1     | GET     /:id
-15:15:59 web.1     | 2015-06-28 15:15:59,164 INF                           DefaultTracer$            Tracer: com.twitter.finagle.zipkin.thrift.SamplingTracer
-15:15:59 web.1     | 2015-06-28 15:15:59,179 INF                           SmallyServerMain$         http server started on port: 5000
-15:15:59 web.1     | 2015-06-28 15:15:59,180 INF                           SmallyServerMain$         Enabling health endpoint on port 50562
-15:15:59 web.1     | 2015-06-28 15:15:59,180 INF                           SmallyServerMain$         App started.
-15:15:59 web.1     | 2015-06-28 15:15:59,181 INF                           SmallyServerMain$         Startup complete, server ready.
+11:29:08 web.1  | started with pid 73394
+11:29:09 web.1  | 2017-11-01 11:29:09,931 INF                           Slf4jBridgeUtility$       org.slf4j.bridge.SLF4JBridgeHandler installed.
+11:29:10 web.1  | 2017-11-01 11:29:10,610 INF                           HttpMuxer$                HttpMuxer[/admin/metrics.json] = com.twitter.finagle.stats.MetricsExporter(<function1>)
+11:29:10 web.1  | 2017-11-01 11:29:10,611 INF                           HttpMuxer$                HttpMuxer[/admin/per_host_metrics.json] = com.twitter.finagle.stats.HostMetricsExporter(<function1>)
+11:29:10 web.1  | 2017-11-01 11:29:10,638 INF                           SmallyServerMain$         Process started
+11:29:10 web.1  | 2017-11-01 11:29:10,950 INF                           SmallyServerMain$         Serving admin http on 0.0.0.0/0.0.0.0:0
+11:29:11 web.1  | 2017-11-01 11:29:11,405 INF                           finagle                   Finagle version 17.10.0 (rev=0c1fa04413999f62d26808eb93e8195535ea73dc) built at 20171026-163548
+11:29:12 web.1  | 2017-11-01 11:29:12,385 INF                           SmallyServerMain$         Resolving Finagle clients before warmup
+11:29:12 web.1  | 2017-11-01 11:29:12,398 INF                           SmallyServerMain$         Done resolving clients: [].
+11:29:12 web.1  | 2017-11-01 11:29:12,400 INF                           FinagleBuildRevision$     Resolved Finagle build revision: (rev=0c1fa04413999f62d26808eb93e8195535ea73dc)
+11:29:12 web.1  | 2017-11-01 11:29:12,577 INF                           SmallyServerMain$         Warming up.
+11:29:12 web.1  | 2017-11-01 11:29:12,705 INF                           HttpRouter                Adding routes
+11:29:12 web.1  | POST    /url
+11:29:12 web.1  | GET     /:id
+11:29:12 web.1  | 2017-11-01 11:29:12,778 INF                           SmallyServerMain$         http server started on port: 8080
+11:29:12 web.1  | 2017-11-01 11:29:12,779 INF                           SmallyServerMain$         Enabling health endpoint on port 50207
+11:29:12 web.1  | 2017-11-01 11:29:12,782 INF                           SmallyServerMain$         io.angstrom.smally.SmallyServerMain started.
+11:29:12 web.1  | 2017-11-01 11:29:12,783 INF                           SmallyServerMain$         Startup complete, server ready.
 ```
 
 

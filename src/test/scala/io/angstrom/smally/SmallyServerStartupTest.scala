@@ -1,16 +1,16 @@
 package io.angstrom.smally
 
 import com.google.inject.Stage
-import com.twitter.finatra.http.test.EmbeddedHttpServer
-import com.twitter.inject.Test
+import com.twitter.finatra.http.EmbeddedHttpServer
+import com.twitter.inject.server.FeatureTest
 
-class SmallyServerStartupTest extends Test {
+class SmallyServerStartupTest extends FeatureTest {
 
-  val server = new EmbeddedHttpServer(
+  override val server = new EmbeddedHttpServer(
     stage = Stage.PRODUCTION,
     twitterServer = new SmallyServer)
 
-  "server" in {
+  test("Server#startup") {
     server.assertHealthy()
   }
 }

@@ -1,14 +1,13 @@
 package io.angstrom.smally
 
-import io.angstrom.smally.services.impl.RedisUrlShortenerService
-import java.net.URL
-import javax.inject.Inject
-
-import com.twitter.finatra.annotations.Flag
 import com.twitter.finatra.http.Controller
 import com.twitter.finatra.http.response.ResponseBuilder
 import com.twitter.inject.Logging
+import com.twitter.inject.annotations.Flag
+import io.angstrom.smally.services.impl.RedisUrlShortenerService
 import io.angstrom.smally.domain.http.{PostUrlRequest, PostUrlResponse, SmallyUrlRedirect}
+import java.net.URL
+import javax.inject.Inject
 
 class SmallyController @Inject()(
   @Flag("secure") secure: Boolean,

@@ -1,7 +1,8 @@
 package io.angstrom.smally.modules
 
-import com.google.inject.{Provides, Singleton}
+import com.google.inject.Provides
 import com.twitter.inject.{Logging, TwitterModule}
+import javax.inject.Singleton
 import redis.clients.jedis.Jedis
 
 object JedisClientModule

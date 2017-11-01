@@ -1,9 +1,8 @@
 package io.angstrom.smally.services
 
-import javax.inject.Inject
-
 import com.google.inject.Singleton
 import io.angstrom.smally.services.Counter._
+import javax.inject.Inject
 import redis.clients.jedis.{Jedis => JedisClient}
 
 object Counter {
