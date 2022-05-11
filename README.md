@@ -2,7 +2,7 @@
 
 ##### Simple URL shortener in Scala using [Finatra](https://twitter.github.io/finatra/).
 
-[![Build Status](https://secure.travis-ci.org/cacoco/smally-finatra.png?branch=master)](http://travis-ci.org/cacoco/smally-finatra?branch=master)
+[![continuous-integration](https://github.com/cacoco/smally-finatra/actions/workflows/ci.yml/badge.svg)](https://github.com/cacoco/smally-finatra/actions/workflows/ci.yml)
 
 ### Building
 

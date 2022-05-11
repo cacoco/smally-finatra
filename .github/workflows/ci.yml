@@ -30,4 +30,4 @@ jobs:
       - name: echo javac version
         run: javac -J-Xmx32m -version
       - name: test
-        run: ${{ format('./sbt ++{0} clean test', matrix.scala) }}
+        run: ${{ format('sbt ++{0} clean test', matrix.scala) }}
