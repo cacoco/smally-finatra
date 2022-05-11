@@ -16,7 +16,7 @@ lazy val versions = new {
   val twitter = "22.4.0"
   val guice = "4.2.3"
   val logback = "1.2.8"
-  val redis = "2.7.2"
+  val redis = "4.2.3"
   val scalacheck = "1.15.4"
   val scalatest = "3.1.2"
   val slf4j = "1.7.30"
@@ -33,21 +33,21 @@ val libraryTestDependencies = Seq(
   "com.twitter" %% "inject-server" % versions.twitter % "test" classifier "tests")
 
 libraryDependencies ++= libraryTestDependencies ++ Seq(
-  "ch.qos.logback" % "logback-classic" % versions.logback,
-  
   "com.google.inject.extensions" % "guice-testlib" % versions.guice % "test",
   "com.google.inject" % "guice" % versions.guice % "test",
+  "com.twitter" %% "util-mock" % versions.twitter % "test",
+  "org.scalacheck" %% "scalacheck" % versions.scalacheck % "test",
+  "org.scalatest" %% "scalatest" %  versions.scalatest % "test",
   
+  "ch.qos.logback" % "logback-classic" % versions.logback,
+  
+  "com.twitter" %% "finagle-http" % versions.twitter,
   "com.twitter" %% "finatra-http-annotations" % versions.twitter,
   "com.twitter" %% "finatra-http-server" % versions.twitter,
   "com.twitter" %% "finatra-jackson" % versions.twitter,
-
+  "com.twitter" %% "inject-app" % versions.twitter,
+  "com.twitter" %% "twitter-server-logback-classic" % versions.twitter,
   "com.twitter" %% "util-slf4j-api" % versions.twitter,
-  
-  "com.twitter" %% "util-mock" % versions.twitter % "test",
-
-  "org.scalacheck" %% "scalacheck" % versions.scalacheck % "test",
-  
-  "org.scalatest" %% "scalatest" %  versions.scalatest % "test",
+  "com.twitter" %% "util-stats" % versions.twitter,
   
   "redis.clients" % "jedis" % versions.redis)

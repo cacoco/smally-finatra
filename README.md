@@ -17,7 +17,7 @@ $ sbt compile stage
 To run locally using foreman:
 
 ```
-$ ➔ PORT=8080 REDIS_URL=redis://127.0.0.1:12345 foreman start web
+$ ➔ PORT=8080 REDIS_HOST=localhost REDIS_PORT=6379 foreman start web
 11:29:08 web.1  | started with pid 73394
 11:29:09 web.1  | 2017-11-01 11:29:09,931 INF                           Slf4jBridgeUtility$       org.slf4j.bridge.SLF4JBridgeHandler installed.
 11:29:10 web.1  | 2017-11-01 11:29:10,610 INF                           HttpMuxer$                HttpMuxer[/admin/metrics.json] = com.twitter.finagle.stats.MetricsExporter(<function1>)

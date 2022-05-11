@@ -6,8 +6,6 @@ import io.angstrom.smally.services.impl.RedisUrlShortenerService
 
 object SmallyModule extends TwitterModule {
 
-  flag("secure", false, "Use HTTPS shortened URLS")
-
   override def configure(): Unit = {
     bind[UrlShortenerService].to[RedisUrlShortenerService]
   }

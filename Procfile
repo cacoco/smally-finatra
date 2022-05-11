@@ -1,1 +1,1 @@
-web: target/universal/stage/bin/smally-finatra -- -admin.port=:0 -http.port=:$PORT -redis.url=$REDIS_URL
+web: target/universal/stage/bin/smally-finatra -- -admin.port=:0 -http.port=:$PORT -redis.host=$REDIS_HOST -redis.port=$REDIS_PORT
