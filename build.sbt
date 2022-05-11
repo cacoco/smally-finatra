@@ -7,32 +7,30 @@ organization := "io.angstrom.smally"
 
 version := "1.0.0-SNAPSHOT"
 
-scalaVersion := "2.12.1"
+scalaVersion := "2.12.12"
 
 mainClass in Compile := Some("io.angstrom.smally.SmallyServerMain")
 fork in run := true
 
 lazy val versions = new {
-  val finatra = "17.10.0"
-  val guice = "4.0"
-  val logback = "1.1.7"
-  val mockito = "1.9.5"
+  val twitter = "22.4.0"
+  val guice = "4.2.3"
+  val logback = "1.2.8"
   val redis = "2.7.2"
-  val scalacheck = "1.13.4"
-  val scalatest = "3.0.0"
-  val slf4j = "1.7.21"
-  val specs2 = "2.4.17"
+  val scalacheck = "1.15.4"
+  val scalatest = "3.1.2"
+  val slf4j = "1.7.30"
 }
 
 /* Necessary "test-jar" dependencies of Finatra libraries 
    see: https://twitter.github.io/finatra/index.html#test-dependencies */
 val libraryTestDependencies = Seq(
-  "com.twitter" %% "finatra-http" % versions.finatra % "test" classifier "tests",
-  "com.twitter" %% "finatra-jackson" % versions.finatra % "test" classifier "tests",
-  "com.twitter" %% "inject-app" % versions.finatra % "test" classifier "tests",
-  "com.twitter" %% "inject-core" % versions.finatra % "test" classifier "tests",
-  "com.twitter" %% "inject-modules" % versions.finatra % "test" classifier "tests",
-  "com.twitter" %% "inject-server" % versions.finatra % "test" classifier "tests")
+  "com.twitter" %% "finatra-http-server" % versions.twitter % "test" classifier "tests",
+  "com.twitter" %% "finatra-jackson" % versions.twitter % "test" classifier "tests",
+  "com.twitter" %% "inject-app" % versions.twitter % "test" classifier "tests",
+  "com.twitter" %% "inject-core" % versions.twitter % "test" classifier "tests",
+  "com.twitter" %% "inject-modules" % versions.twitter % "test" classifier "tests",
+  "com.twitter" %% "inject-server" % versions.twitter % "test" classifier "tests")
 
 libraryDependencies ++= libraryTestDependencies ++ Seq(
   "ch.qos.logback" % "logback-classic" % versions.logback,
@@ -40,15 +38,16 @@ libraryDependencies ++= libraryTestDependencies ++ Seq(
   "com.google.inject.extensions" % "guice-testlib" % versions.guice % "test",
   "com.google.inject" % "guice" % versions.guice % "test",
   
-  "com.twitter" %% "finatra-http" % versions.finatra,
-  "com.twitter" %% "finatra-jackson" % versions.finatra,
+  "com.twitter" %% "finatra-http-annotations" % versions.twitter,
+  "com.twitter" %% "finatra-http-server" % versions.twitter,
+  "com.twitter" %% "finatra-jackson" % versions.twitter,
+
+  "com.twitter" %% "util-slf4j-api" % versions.twitter,
   
-  "org.mockito" % "mockito-core" % versions.mockito % "test",
-  
+  "com.twitter" %% "util-mock" % versions.twitter % "test",
+
   "org.scalacheck" %% "scalacheck" % versions.scalacheck % "test",
   
   "org.scalatest" %% "scalatest" %  versions.scalatest % "test",
-    
-  "org.specs2" %% "specs2-mock" % versions.specs2 % "test",
   
   "redis.clients" % "jedis" % versions.redis)

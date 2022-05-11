@@ -1,6 +1,6 @@
 package io.angstrom.smally.services.impl
 
-import com.twitter.inject.Logging
+import com.twitter.util.logging.Logging
 import io.angstrom.smally.services._
 import io.angstrom.smally.services.impl.RedisUrlShortenerService._
 import javax.inject.Inject

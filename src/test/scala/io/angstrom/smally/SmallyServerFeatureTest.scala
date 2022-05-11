@@ -2,11 +2,10 @@ package io.angstrom.smally
 
 import com.twitter.finagle.http.Status._
 import com.twitter.finatra.http.EmbeddedHttpServer
-import com.twitter.inject.Mockito
 import com.twitter.inject.server.FeatureTest
+import com.twitter.util.mock.Mockito
 import io.angstrom.smally.domain.http.PostUrlResponse
 import io.angstrom.smally.services._
-import org.mockito.Matchers.anyObject
 import redis.clients.jedis.{Jedis => JedisClient}
 import scala.util.Random
 
@@ -14,18 +13,18 @@ class SmallyServerFeatureTest
   extends FeatureTest
   with Mockito {
 
-  val mockJedisClient = smartMock[JedisClient]
+  val mockJedisClient = mock[JedisClient]
 
   override val server = 
     new EmbeddedHttpServer(twitterServer = new SmallyServer)
-    .bind[JedisClient](mockJedisClient)
+    .bind[JedisClient].toInstance(mockJedisClient)
 
  
   test("Server#return shortened url") {
-    mockJedisClient.get(anyObject[String]()) returns null
+    mockJedisClient.get(any[String]) returns null
     mockJedisClient.set(
-      anyObject[String](),
-      anyObject[String]()) returns "OK"
+      any[String],
+      any[String]) returns "OK"
 
     val port = server.httpExternalPort
     val path =
@@ -49,10 +48,10 @@ class SmallyServerFeatureTest
   }
 
   test("Server#resolve shortened url") {
-    mockJedisClient.get(anyObject[String]()) returns null
+    mockJedisClient.get(any[String]) returns null
     mockJedisClient.set(
-      anyObject[String](),
-      anyObject[String]()) returns "OK"
+      any[String],
+      any[String]) returns "OK"
 
     val response = server.httpPostJson[PostUrlResponse](
       path = "/url",
@@ -65,7 +64,7 @@ class SmallyServerFeatureTest
       andExpect = Created)
 
     mockJedisClient.get(
-      anyObject[String]()) returns "http://www.google.com"
+      any[String]) returns "http://www.google.com"
 
     server.httpGet(
       path = response.smallyUrl.substring(response.smallyUrl.lastIndexOf("/")),
@@ -90,7 +89,7 @@ class SmallyServerFeatureTest
         Counter.InitialValue + new Random(Counter.InitialValue).nextLong().abs,
         EncodingRadix)
 
-    mockJedisClient.get(anyObject[String]()) returns null
+    mockJedisClient.get(any[String]) returns null
 
     server.httpGet(
       path = s"/$id",

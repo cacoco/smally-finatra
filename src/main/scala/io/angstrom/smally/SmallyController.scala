@@ -2,7 +2,6 @@ package io.angstrom.smally
 
 import com.twitter.finatra.http.Controller
 import com.twitter.finatra.http.response.ResponseBuilder
-import com.twitter.inject.Logging
 import com.twitter.inject.annotations.Flag
 import io.angstrom.smally.services.impl.RedisUrlShortenerService
 import io.angstrom.smally.domain.http.{PostUrlRequest, PostUrlResponse, SmallyUrlRedirect}
@@ -13,8 +12,7 @@ class SmallyController @Inject()(
   @Flag("secure") secure: Boolean,
   urlShortenerService: RedisUrlShortenerService,
   response: ResponseBuilder)
-  extends Controller
-  with Logging {
+  extends Controller {
 
   post("/url") { request: PostUrlRequest =>
     val url = new URL(request.url)
