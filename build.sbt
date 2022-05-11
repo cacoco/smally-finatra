@@ -7,10 +7,10 @@ organization := "io.angstrom.smally"
 
 version := "1.0.0-SNAPSHOT"
 
-scalaVersion := "2.12.12"
+scalaVersion := "2.12.15"
 
-mainClass in Compile := Some("io.angstrom.smally.SmallyServerMain")
-fork in run := true
+Compile / mainClass := Some("io.angstrom.smally.SmallyServerMain")
+run / fork := true
 
 lazy val versions = new {
   val twitter = "22.4.0"
@@ -26,7 +26,6 @@ lazy val versions = new {
    see: https://twitter.github.io/finatra/index.html#test-dependencies */
 val libraryTestDependencies = Seq(
   "com.twitter" %% "finatra-http-server" % versions.twitter % "test" classifier "tests",
-  "com.twitter" %% "finatra-jackson" % versions.twitter % "test" classifier "tests",
   "com.twitter" %% "inject-app" % versions.twitter % "test" classifier "tests",
   "com.twitter" %% "inject-core" % versions.twitter % "test" classifier "tests",
   "com.twitter" %% "inject-modules" % versions.twitter % "test" classifier "tests",
